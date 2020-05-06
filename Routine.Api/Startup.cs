@@ -54,12 +54,15 @@ namespace Routine.Api
                         Duration = 120
                     });
                 })
+                //for Httppatch, because jasonpatchdocument package not fully work 
                 .AddNewtonsoftJson(setup =>
                 {
                     setup.SerializerSettings.ContractResolver = 
                     new CamelCasePropertyNamesContractResolver();
                 })
+                //support xml import and outport
                 .AddXmlDataContractSerializerFormatters()
+                //以下是自定义错误报告
                 .ConfigureApiBehaviorOptions(
                 setup=>setup.InvalidModelStateResponseFactory = context =>
                 {

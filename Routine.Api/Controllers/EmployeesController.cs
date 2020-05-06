@@ -161,12 +161,13 @@ namespace Routine.Api.Controllers
             }
 
             var dtoToPatch = _mapper.Map<EmployeeUpdateDto>(employeeEntity);
-
-            //需要处理验证错误
+            //需要处理验证错误, 如果remove不存在的field，应该返回400错误
             patchDocument.ApplyTo(dtoToPatch,ModelState);
+            // 不然执行remove required field时会返回500错误，应该是400错误。
 
             if (!TryValidateModel(dtoToPatch))
             {
+                //下面有override方法
                 return ValidationProblem(ModelState);
             }
 
@@ -198,6 +199,8 @@ namespace Routine.Api.Controllers
 
             return NoContent();
         }
+
+        //自定义ValidationProblem(ModelState)返回code
         public override ActionResult ValidationProblem(ModelStateDictionary modelStateDictionary)
         {
             var options = HttpContext.RequestServices.GetRequiredService<IOptions<ApiBehaviorOptions>>();

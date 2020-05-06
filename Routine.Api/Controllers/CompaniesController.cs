@@ -46,6 +46,7 @@ namespace Routine.Api.Controllers
         [HttpHead]
         //public async Task<IActionResult> GetCompanies()
         public async Task<IActionResult> GetCompanies(
+            //来自query string
             [FromQuery]CompanyDtoParameters parameters)
         {
             //解决搜索的时候column名字不存在会返回500服务器错的问题，应该是客户发送错误。

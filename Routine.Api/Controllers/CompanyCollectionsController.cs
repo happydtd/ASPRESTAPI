@@ -27,6 +27,7 @@ namespace Routine.Api.Controllers
         [HttpGet("({ids})", Name = nameof(GetCompanyCollection))]
         public async Task<IActionResult> GetCompanyCollection(
             [FromRoute]
+            //接收数组类型，用自定义modelbinder去返回ids
             [ModelBinder(BinderType = typeof(ArrayModelBinder))]
             IEnumerable<Guid> ids)
         {
